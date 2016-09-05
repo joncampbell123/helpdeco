@@ -1,0 +1,151 @@
+2005-11-18  pabs3
+
+	* Makefile, NEWS, helpdeco.c: Release version 2.1.3
+
+2005-11-18  pabs3
+
+	* TODO: Add another TODO item
+
+2005-11-18  pabs3
+
+	* helpdec1.c, helpdeco.h: Improve const correctness - thanks to
+	Markus Elfring (elfring) for the tip
+
+2005-11-17  pabs3
+
+	* compat.c: Apply patch from Dirk Jagdmann (doj) to fix pointer
+	flibbling
+
+2005-11-17  pabs3
+
+	* splitmrb.c: Apply patch from Dirk Jagdmann (doj) to fix HOTSPOT
+	struct packing with GCC >= 3
+
+2005-11-17  pabs3
+
+	* compat.c, compat.h, helpdeco.c, splitmrb.c, zapres.c: Apply patch
+	from Dirk Jagdmann (doj) to use POSIX path defines instead of DOS
+	ones.
+
+2005-06-29  pabs3
+
+	* TODO: Add another TODO item
+
+2005-06-29  pabs3
+
+	* TODO: Add a TODO file
+
+2005-06-23  pabs3
+
+	* helpdeco.c: Release version 2.1.2
+
+2005-06-23  pabs3
+
+	* Makefile, NEWS: Release version 2.1.2
+
+2005-06-22  pabs3
+
+	* helpdec1.c, helpdeco.c: Add patch for compiling with GCC 4.0 from
+	Andreas Jochens <aj@andaco.de>
+
+2005-05-20  pabs3
+
+	* README, README.de: Remove references to MS-DOS and Windows
+	command lines from the READMEs
+
+2005-05-19  pabs3
+
+	* Makefile, NEWS, helpdeco.c: Pelease version 2.1.1
+
+2005-05-19  pabs3
+
+	* README, README.de: Convert README and README.de to UTF-8 from
+	IBM850
+
+2005-05-17  pabs3
+
+	* Makefile, README, README.de, compat.c, compat.h, helpdeco.c,
+	helpdeco.h, splitmrb.c, zapres.c: Fix Ben's copyright year.
+
+2005-05-16  pabs3
+
+	* helpdec1.c, helpdeco.c, helpdeco.h, helpfile.txt, README,
+	README.de, splitmrb.c, zapres.c: Update copyright years for Manfred
+
+2005-05-16  pabs3
+
+	* README, README.de, helpdeco.c, splitmrb.c, zapres.c: Change
+	Manfred's email address to his new one
+
+2005-05-15  pabs3
+
+	* Makefile: Improve the Makefile (fix install target, add dist
+	target)
+
+2005-05-10  pabs3
+
+	* Makefile: Make the install target depend on the build target
+
+2005-05-10  pabs3
+
+	* helpdec1.c, helpdeco.h: Use HAVE_STRLCPY and HAVE_STRNCPY,
+	fallback on internal strlcpy if not available
+
+2005-05-10  pabs3
+
+	* README, README.de: Change the download site to point at
+	sourceforge.net
+
+2005-05-10  pabs3
+
+	* Makefile, README, README.de: Add the Makefile written by myself
+	(Paul Wise)
+
+2005-05-10  pabs3
+
+	* README, README.de, compat.c, compat.h, helpdec1.c, helpdeco.c,
+	helpdeco.h, splitmrb.c, zapres.c: Commit most of the NetBSD
+	patches. Thanks to Ben Collver for licencing his patches for
+	inclusion.
+
+2005-05-05  pabs3
+
+	* README, README.de: Adding the relicencing email, as advised by
+	this: http://lists.debian.org/debian-legal/2005/04/msg00295.html
+
+2005-04-30  pabs3
+
+	* NEWS, README, README.de, helpdec1.c, helpdeco.c, helpdeco.h,
+	helpfile.txt, splitmrb.c, zapres.c: Add copyright and licencing
+	(GPL>=2) notices to all files.
+
+2005-04-30  pabs3
+
+	* README, README.de, helpdeco.c, splitmrb.c, zapres.c: Remove
+	references to "freeware", since we are relicencing.
+
+2005-04-30  pabs3
+
+	* README, README.de, helpfile.txt: Updated email addresses.
+
+2005-04-30  pabs3
+
+	* NEWS, README, README.de, helpdeco.txt: Split helpdeco.txt out
+	into NEWS, README and README.de files.
+
+2005-04-29  pabs3
+
+	* helpdec1.c, helpdeco.c, helpdeco.h, helpdeco.txt, helpfile.txt,
+	splitmrb.c, zapres.c: Convert CRLF to just LF
+
+2005-04-29  pabs3
+
+	* helpdec1.c, helpfile.txt, helpdeco.c, helpdeco.h, helpdeco.txt,
+	splitmrb.c, zapres.c: Initial import. Renamed all files to lower
+	case and removed binaries.
+
+2005-04-29  pabs3
+
+	* helpdec1.c, helpfile.txt, helpdeco.c, helpdeco.h, helpdeco.txt,
+	splitmrb.c, zapres.c: Initial revision
+

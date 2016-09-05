@@ -1,0 +1,172 @@
+helpdeco -- Utility-Programm zum Zerlegen von Windows Hilfedateien
+Copyright (C) 1996, 1997 Manfred Winterhoff
+Copyright (C) 2001 Ben Collver
+Copyright (C) 2005 Paul Wise
+
+This file is part of helpdeco; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA, 02111-1307, USA or visit:
+http://www.gnu.org
+
+helpdeco has been relicenced to the GNU GPL with permission from Manfred:
+> ------------------------------------------------------------------------
+> From: 	Manfred Winterhoff <mawin@gmx.net>
+> Date: 	Sun, 3 Apr 2005 20:47:46 +0200
+> 
+> Oh, so you developed CHMDeco. So you will know what demand is on the
+> Linux side to handle Windows Help files. I can not believe that the
+> NetBSD port of HelpDeco does have any audience, but if you want to port
+> HelpDeco to Linux, just do it, add your copyright to mine, and release
+> your port with source under GPL, so that Debian and all other Linux 
+> distributers can include it if they want.
+> ------------------------------------------------------------------------
+
+HELPDECO zerlegt HLP-Hilfedateien von Windows 3.0, 3.1, 3.11 und '95 und
+viele MVB-Dateien des Multimedia-Viewers in alle für den jeweiligen
+Hilfecompiler HC30, HC31, HCP, HCW, HCRTF, WMVC, MMVC oder MVC zum
+erneuten Zusammenbau erforderlichen Dateien. Dazu gehören:
+HPJ - die Projektdatei, als Parameter für den Hilfecompiler anzugeben
+MVP - die Multimediaprojektdatei, als Parameter für den MM-Compiler
+RTF - die Textdatei mit dem gesamten Hilfetext und allen Fußnoten
+PH  - die Phrasen-Datei (wie sie auch vom Hilfecompiler erzeugt wird)
+ICO - ein eventuell der Hilfedatei zugeordnetes Icon
+BMP/WMF/SHG/MRB - alle Bilder in Dateien mit passendem Format
+Baggage - alle als Baggage in der Hilfedatei enthaltenen Dateien
+
+HELPDECO
+Zeigt Benutzungshinweise
+
+HELPDECO helpfilename
+Zerlegt die Hilfedatei in alle zum erneuten Zusammenbau benötigten Dateien.
+Diese Dateien werden im aktuellen (möglichst leeren) Verzeichnis abgelegt.
+Existierende Dateien werden ohne Rückfrage überschrieben wenn die Option /y
+angegeben wird.
+
+Hinter dem Kommando können durch Leerzeichen abgesetzte Optionen angeben
+werden:
+
+/m
+kann verwendet werden, um das Durchsuchen von macros nach Topicnamen zu
+verhindern, wenn dabei Probleme auftreten. Hilfecompiler wird Warnung 4131
+melden.
+
+/b
+kann verwendet werden, um das Auflösen von Browse-Sequenzen zu verhindern,
+wenn dabei Probleme auftreten. Hilfequelltextdatei enthält dann keine +
+Fußnoten.
+
+/g
+Schaltet das zeitintensive Raten von Kontextnamen aus. Anzuwenden wenn
+HELPDECO 'no context ids found' meldet oder man nicht an lesbaren
+Kontextnamen interessiert ist. Die Funktionsweise von HELPDECO wird dadurch
+nicht beeinträchtigt.
+Zum Raten versucht HELPDECO aus Kapitelüberschriften und Schlüsselwörten
+die Kontextnamen zu rekonstruieren, was bei einigen Hilfedateien sehr gut,
+bei anderen gar nicht funktioniert, je nach Hilfedateierstellungswerkzeug
+oder Arbeitsmethode des Hilfeautors.
+
+/i
+Wenn man sehen möchte, welche Kontextnamen HELPDECO errät...
+
+/hprefix
+HELPDECO versucht aus Kapitelüberschriften und Schlüsselwörtern Kontextnamen
+zu erraten, wobei auch idh_ oder helpid_ vorangestellt werden.
+Wenn die Hilfedatei mit anderen bekannten Prefixen erstellt wurde, kann
+die Tabelle durch die Option /h prefix erweitert werden.
+
+/a [annotationfilename.ANN]
+Fügt zusätzlich alle Anmerkungen aus der angegebenen Anmerkungsdatei als
+Anmerkungen des Benutzers ANN in die RTF-Datei ein. Fehlt der annotation-
+filename, verwendet HELPDECO helpfilename.ANN dafür.
+
+/s n
+Zerteilt die Ausgabe alle n Seiten in eine eigene RTF Datei, z.B. zerlegt
+  HELPDECO helpdemo /s 100
+die Datei helpdemo.hlp und erzeugt RTF-Dateien mit den Namen helpdem1.rtf,
+helpdem2.rtf,.. die jeweils höchstens 100 Seiten enthalten.
+
+HELPDECO helpfilename /r
+Erzeugt aus der Hilfedatei eine RTF-Datei, die von WinWord geladen dasselbe
+Aussehen hat wie die von WinHelp angezeigten Hilfeseiten. Damit kann eine
+Hilfedatei komplett gedruckt oder weiterverarbeitet werden. Zusätzlich
+Option /n angeben, wenn an Kapitelgrenzen kein Seitenwechsel stattfinden soll.
+
+HELPDECO helpfilename /c
+Erzeugt aus der Hilfedatei eine *.CNT-Datei für WinHlp32, die alle Kapitel
+mit Überschriften in der Reihenfolge enthält, in der sie in der Hilfedatei
+auftreten. Die Datei muß dann mit HCW 4.00 oder einem Texteditor in eine
+hierarchische Struktur überarbeitet werden.
+
+HELPDECO helpfilename /e
+Zeigt alle Referenzen auf externe Hilfedateien.
+
+HELPDECO helpfilename /e /f
+Zeigt alle Referenzen auf externe Hilfedateien und die Titel der Topics in
+denen sie auftraten.
+
+HELPDECO helpfilename /p
+Prüft Referenzen auf externe Hilfedateien. Die referenzierten Hilfedateien
+müssen für HELPDECO zugreifbar sein. Dieser Aufruf erzeugt keine neuen
+Dateien und modifiziert keine existierenden. Fehler werden auf stdout (den
+Bildschirm) geschrieben.
+
+HELPDECO helpfilename /d
+Zeigt das interne Inhaltsverzeichnis der Hilfedatei. Es kann auch eine
+*.MVB,*.M??,*.ANN,*.CAC,*.AUX Datei anstelle der *.HLP-Datei angegeben
+werden.
+
+HELPDECO helpfilename /x
+Zeigt das interne Inhaltsverzeichnis als HexDump
+
+HELPDECO helpfilename "internalfilename"
+Zeigt die genannte interne Datei in einem passenden Format an, soweit die
+interne Datei anzeigbar ist, sonst als HexDump. Sie können die Ausgabe in
+eine Datei umleiten durch anhängen von >outfile.
+
+HELPDECO helpfilename "internalfilename" /x
+Zeigt die genannte interne Datei als HexDump
+
+HELPDECO helpfilename "internalfilename" /x /t offset
+Zeigt die genannte interne Datei als HexDump beginnend bei Position
+offset, der als Dezimalzahl oder mit vorangestelltem 0x als Hexadezimal-
+zahl akzeptiert wird.
+
+HELPDECO helpfilename "internalfilename" filename
+Exportiert die genannte interne Datei in filename
+
+*.ANN, *.CAC, *.AUX
+Diese Dateien sind auch wie Hilfedateien formatiert, HELPDECO kann aber nur
+verwendet werden, um ihr Inhaltsverzeichnis anzuzeigen oder um einzelne
+Dateien anzuzeigen und zu exportieren.
+
+HELPDECO wurde erstellt von
+Manfred Winterhoff <mawin@gmx.net>, Geschw.-Scholl-Ring 17, 38444 Wolfsburg, Germany
+
+Wenn Sie weitere Fragen, Probleme (oder Antworten!) haben, können Sie
+durch eine EMail an mawin@gmx.net mit mir in Kontakt treten.
+
+HELPDECO basiert auf HELPDUMP von Pete Davis veröffentlicht in:
+The Windows Help File Format, Dr. Dobbs Journal, Sep/Oct 1993
+Thanks to Holger Haase, who did a lot of work on picture file formats.
+And thanks to Jürgen Müller for pointing out 32-bit differences.
+Thanks to Bent Lynggaard for the information on help file free lists
+and his contribution on context id guessing.
+
+HELPFILE.TXT enthält eine Beschreibung des Windows Hilfedateiformats
+wie HELPDECO es versteht und weiterer Dateiformate wie MRB/SHG.
+
+Die neueste Version von HELPDECO befindet sich stets in:
+http://sourceforge.net/projects/helpdeco/
+
+Die Verwendung von Inhalten zerlegter Hilfedateien kann eine Verletzung
+des Urheberrechtes bedeuten.
