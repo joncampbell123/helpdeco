@@ -50,7 +50,7 @@ BOOL before31,after31;
 BOOL win95;
 BOOL mvp,multi;
 BOOL warnings,missing;
-long *Topic;
+int32_t *Topic;
 int Topics;			    /* 16 bit: max. 16348 Topics */
 GROUP *group;
 int groups;
@@ -127,12 +127,12 @@ static signed char table[256]=
 char oldtable[256];
 unsigned char untable[]={0,'1','2','3','4','5','6','7','8','9','0',0,'.','_',0,0,0,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 char *prefix[]={"","idh_","helpid_",NULL,NULL,NULL,NULL,NULL};
-long prefixhash[sizeof(prefix)/sizeof(prefix[0])];
+int32_t prefixhash[sizeof(prefix)/sizeof(prefix[0])];
 FONTDESCRIPTOR CurrentFont;
 
-long hash(char *name) /* convert 3.1/'95 topic name to hash value */
+int32_t hash(char *name) /* convert 3.1/'95 topic name to hash value */
 {
-    long hash;
+    int32_t hash;
     unsigned char *ptr;
 
     if(*name=='\0') return 1L;
@@ -143,11 +143,11 @@ long hash(char *name) /* convert 3.1/'95 topic name to hash value */
     return hash;
 }
 
-char *unhash(unsigned long hash) /* deliver 3.1 context id that fits hash value */
+char *unhash(uint32_t hash) /* deliver 3.1 context id that fits hash value */
 {
     static char buffer[15];
     int i,j,k;
-    unsigned long hashlo,divlo,result,mask;
+    uint32_t hashlo,divlo,result,mask;
     unsigned char hashhi,divhi;
     char ch;
 
@@ -156,11 +156,11 @@ char *unhash(unsigned long hash) /* deliver 3.1 context id that fits hash value 
     while(i<j)
     {
 	k=(i+j)/2;
-	if(hashrec[k].hash<(long)hash)
+	if(hashrec[k].hash<(int32_t)hash)
 	{
 	    i=k+1;
 	}
-	else if(hashrec[k].hash>(long)hash)
+	else if(hashrec[k].hash>(int32_t)hash)
 	{
 	    j=k;
 	}
@@ -202,7 +202,7 @@ char *unhash(unsigned long hash) /* deliver 3.1 context id that fits hash value 
     return buffer;
 }
 
-char *ContextId(unsigned long hash) /* unhash and verify for legal entry point */
+char *ContextId(uint32_t hash) /* unhash and verify for legal entry point */
 {
     char *ptr;
     int i;
@@ -1539,7 +1539,7 @@ void SysList(FILE *HelpFile,FILE *hpj,char *IconFileName)
 		    if(SysRec->Data[0]) fprintf(hpj,"COPYRIGHT=%s\n",SysRec->Data);
 		    break;
 		case 0x0003:
-		    ptr=TopicName(*(long *)SysRec->Data);
+		    ptr=TopicName(*(int32_t *)SysRec->Data);
 		    if(ptr) fprintf(hpj,"CONTENTS=%s\n",ptr);
 		    break;
 		case 0x0004:
@@ -2581,7 +2581,7 @@ void CollectKeywords(FILE *HelpFile)
     unsigned short j,m;
     int i,n,k,l,map;
     long FileLength,savepos,KWDataOffset,from;
-    long *keytopic;
+    int32_t *keytopic;
     BUFFER buf;
     char kwdata[10];
     char kwbtree[10];
@@ -3503,9 +3503,9 @@ FILE *TopicDump(FILE *HelpFile,FILE *rtf,FILE *hpj,BOOL makertf)
 			else switch((unsigned char)ptr[0])
 			{
 			case 0x20: /* vfld MVB */
-			    if(*(long *)(ptr+1))
+			    if(*(int32_t *)(ptr+1))
 			    {
-				fprintf(rtf,"\\{vfld%ld\\}",*(long *)(ptr+1));
+				fprintf(rtf,"\\{vfld%ld\\}",*(int32_t *)(ptr+1));
 			    }
 			    else
 			    {
@@ -3708,7 +3708,7 @@ FILE *TopicDump(FILE *HelpFile,FILE *rtf,FILE *hpj,BOOL makertf)
 			    if(!makertf)
 			    {
 				hotspot=my_realloc(hotspot,128);
-				sprintf(hotspot,"TOPIC%ld",*(long *)(ptr+1));
+				sprintf(hotspot,"TOPIC%ld",*(int32_t *)(ptr+1));
 			    }
 			    ptr+=5;
 			    break;
@@ -3720,7 +3720,7 @@ FILE *TopicDump(FILE *HelpFile,FILE *rtf,FILE *hpj,BOOL makertf)
 			label1:
 			    if(!makertf)
 			    {
-				arg=ContextId(*(long *)(ptr+1));
+				arg=ContextId(*(int32_t *)(ptr+1));
 				hotspot=my_realloc(hotspot,strlen(arg)+1);
 				sprintf(hotspot,"%s",arg);
 			    }
@@ -3734,7 +3734,7 @@ FILE *TopicDump(FILE *HelpFile,FILE *rtf,FILE *hpj,BOOL makertf)
 			label2:
 			    if(!makertf)
 			    {
-				arg=ContextId(*(long *)(ptr+1));
+				arg=ContextId(*(int32_t *)(ptr+1));
 				hotspot=my_realloc(hotspot,strlen(arg)+2);
 				sprintf(hotspot,"%%%s",arg);
 			    }
@@ -3758,7 +3758,7 @@ FILE *TopicDump(FILE *HelpFile,FILE *rtf,FILE *hpj,BOOL makertf)
 				{
 				    cmd="";
 				}
-				arg=unhash(*(long *)(ptr+4)); // no ContextId, it may jump into external file
+				arg=unhash(*(int32_t *)(ptr+4)); // no ContextId, it may jump into external file
 				switch((unsigned char)ptr[3])
 				{
 				case 0:
@@ -3907,7 +3907,7 @@ void ListRose(FILE *HelpFile,FILE *hpj)
 {
     long FileLength,offset,hash,h,pos,savepos;
     unsigned char *ptr;
-    long *keytopic;
+    int32_t *keytopic;
     int n,i,l,e;
     unsigned short j,count;
     BUFFER buf,buf2;
@@ -4212,7 +4212,8 @@ void SysDump(FILE *HelpFile)
     printf("System Flags & Compression Method=0x%04x\n",SysHdr.Flags);
     if(SysHdr.GenDate)
     {
-	TimeRec=localtime(&SysHdr.GenDate);
+        time_t t = (time_t)SysHdr.GenDate;
+	TimeRec=localtime(&t);
 	printf("Help File Generated: %s",asctime(TimeRec));
     }
     if(SysHdr.Minor<16)
@@ -4231,7 +4232,7 @@ void SysDump(FILE *HelpFile)
 	    printf("COPYRIGHT=%s\n",SysRec->Data);
 	    break;
 	case 0x0003:
-	    printf("CONTENTS=0x%08lX\n",*(long *)SysRec->Data);
+	    printf("CONTENTS=0x%08lX\n",*(int32_t *)SysRec->Data);
 	    break;
 	case 0x0004:
 	    printf("[MACRO] %s\n",SysRec->Data);
@@ -4492,7 +4493,7 @@ void DumpTopic(FILE *HelpFile,long TopicPos)
 		    else switch((unsigned char)ptr[0])
 		    {
 		    case 0x20:
-			printf("{vfld%ld}",*(long *)(ptr+1));
+			printf("{vfld%ld}",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0x21:
@@ -4583,27 +4584,27 @@ void DumpTopic(FILE *HelpFile,long TopicPos)
 			ptr+=*(short *)(ptr+1)+3;
 			break;
 		    case 0xE0: /* Popup HC30 */
-			printf("[^TOPIC%ld]",*(long *)(ptr+1));
+			printf("[^TOPIC%ld]",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0xE1: /* Jump HC30 */
-			printf("[TOPIC%ld]",*(long *)(ptr+1));
+			printf("[TOPIC%ld]",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0xE2: /* Popup HC31 */
-			printf("[^%08lx]",*(long *)(ptr+1));
+			printf("[^%08lx]",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0xE3: /* Jump HC31 */
-			printf("[%08lx]",*(long *)(ptr+1));
+			printf("[%08lx]",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0xE6: /* Popup without font change */
-			printf("[*^%08lx]",*(long *)(ptr+1));
+			printf("[*^%08lx]",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0xE7: /* Jump without font change */
-			printf("[*%08lx]",*(long *)(ptr+1));
+			printf("[*%08lx]",*(int32_t *)(ptr+1));
 			ptr+=5;
 			break;
 		    case 0xEA: /* Popup into external file / secondary window */
@@ -4621,16 +4622,16 @@ void DumpTopic(FILE *HelpFile,long TopicPos)
 			switch(ptr[3])
 			{
 			case 0:
-			    printf("[%s%08lx] ",cmd,*(long *)(ptr+4));
+			    printf("[%s%08lx] ",cmd,*(int32_t *)(ptr+4));
 			    break;
 			case 1: /* Popup into secondary window (silly) */
-			    printf("[%s%08lx>%d]",cmd,*(long *)(ptr+4),(unsigned char)ptr[8]);
+			    printf("[%s%08lx>%d]",cmd,*(int32_t *)(ptr+4),(unsigned char)ptr[8]);
 			    break;
 			case 4:
-			    printf("[%s%08lx@%s] ",cmd,*(long *)(ptr+4),ptr+8);
+			    printf("[%s%08lx@%s] ",cmd,*(int32_t *)(ptr+4),ptr+8);
 			    break;
 			case 6: /* Popup into external file / secondary window (silly) */
-			    printf("[%s%08lx>%s@%s] ",cmd,*(long *)(ptr+4),ptr+8,strchr(ptr+8,'\0')+1);
+			    printf("[%s%08lx>%s@%s] ",cmd,*(int32_t *)(ptr+4),ptr+8,strchr(ptr+8,'\0')+1);
 			    break;
 			default:
 			    putchar('[');
@@ -4723,7 +4724,7 @@ void CTXOMAPList(FILE *HelpFile,FILE *hpj) /* write [MAP] section to HPJ file */
 
 void GuessFromKeywords(FILE *HelpFile)
 {
-    long *keytopic;
+    int32_t *keytopic;
     char kwdata[10];
     char kwbtree[10];
     int m,i,n,k,l,j,map;
@@ -5076,10 +5077,10 @@ void FirstPass(FILE *HelpFile)
 			case 1:
 			    break;
 			case 4:
-			    StoreReference(ptr+8,TOPIC,NULL,*(long *)(ptr+4));
+			    StoreReference(ptr+8,TOPIC,NULL,*(int32_t *)(ptr+4));
 			    break;
 			case 6:
-			    StoreReference(strchr(ptr+8,'\0')+1,TOPIC,NULL,*(long *)(ptr+4));
+			    StoreReference(strchr(ptr+8,'\0')+1,TOPIC,NULL,*(int32_t *)(ptr+4));
 			    break;
 			default:
 			    error("Unknown modifier %02x in tag %02x",(unsigned char)ptr[3],(unsigned char)ptr[0]);

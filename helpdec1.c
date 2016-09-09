@@ -640,8 +640,8 @@ long scanlong(char **ptr)  /* scan a compressed long */
 {
     long ret;
     if(*(*ptr)&1) {
-        ret = (*(((unsigned long *)(*ptr)))>>1)-0x40000000L;
-        *ptr=((unsigned long *)*ptr)+1;
+        ret = (*(((uint32_t *)(*ptr)))>>1)-0x40000000L;
+        *ptr=((uint32_t *)*ptr)+1;
     } else {
         ret = (*(((unsigned short *)(*ptr)))>>1)-0x4000;
         *ptr=((unsigned short *)*ptr)+1;

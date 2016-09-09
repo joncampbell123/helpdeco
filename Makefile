@@ -16,6 +16,8 @@
 # Inc., 59 Temple Place, Suite 330, Boston, MA, 02111-1307, USA or visit:
 # http://www.gnu.org
 
+CFLAGS ?= -g3 -O0
+
 prefix = /usr/local
 distdir = helpdeco-2.1.3
 files = \
